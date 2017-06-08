@@ -51,6 +51,7 @@ public class RequestController {
         int boardHeight = request.getHeight();
 
         Snake me = getMySnake(request.getYou(), request.getSnakes());
+        Snake otherSnake = getOtherSnake(request.getYou(), request.getSnakes());
 
         int[] head = me.getCoords()[0];
         int headX = head[0];
@@ -78,6 +79,10 @@ public class RequestController {
         if (possibleMoves.isEmpty()) {
             taunt = "Nooooooo!";
             possibleMoves.add(Move.DOWN);
+        } else {
+            if (otherSnake != null) {
+                taunt = otherSnake.getName() + "'s mother was a garden hose!";
+            }
         }
         
         if(possibleMoves.contains(foodMove)) {
@@ -101,6 +106,15 @@ public class RequestController {
     private Snake getMySnake(String myId, ArrayList<Snake> snakes) {
         for (Snake snake : snakes) {
             if (snake.getId().equals(myId)) {
+                return snake;
+            }
+        }
+        return null;
+    }
+
+    private Snake getOtherSnake(String myId, ArrayList<Snake> snakes) {
+        for (Snake snake : snakes) {
+            if (!snake.getId().equals(myId)) {
                 return snake;
             }
         }
