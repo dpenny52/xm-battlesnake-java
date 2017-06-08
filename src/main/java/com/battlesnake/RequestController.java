@@ -108,11 +108,16 @@ public class RequestController {
     }
     
     public Move getFood(int[][] ourCoords, int[][] foodCoords) {
-	  if(ourCoords[0][0] > foodCoords[0][0]) return Move.LEFT;
-	  if(ourCoords[0][0] < foodCoords[0][0]) return Move.RIGHT;
-	  if(ourCoords[0][1] > foodCoords[0][1]) return Move.UP;
-	  if(ourCoords[0][1] < foodCoords[0][1]) return Move.DOWN;
-  	  return null;
+    	List<Move> foodMoves = new ArrayList<Move>();
+	  if(ourCoords[0][0] > foodCoords[0][0]) foodMoves.add(Move.LEFT);
+	  if(ourCoords[0][0] < foodCoords[0][0]) foodMoves.add(Move.RIGHT);
+	  if(ourCoords[0][1] > foodCoords[0][1]) foodMoves.add(Move.UP);
+	  if(ourCoords[0][1] < foodCoords[0][1]) foodMoves.add(Move.DOWN);
+	  if(foodMoves.isEmpty()) {
+		  return null;
+	  } else {
+		  return foodMoves.get(ThreadLocalRandom.current().nextInt(foodMoves.size()));
+	  }
     }
 
     
