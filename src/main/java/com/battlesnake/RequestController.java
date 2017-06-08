@@ -51,6 +51,7 @@ public class RequestController {
         int boardHeight = request.getHeight();
 
         Snake me = getMySnake(request.getYou(), request.getSnakes());
+        Snake otherSnake = getOtherSnake(request.getYou(), request.getSnakes());
 
         int[] head = me.getCoords()[0];
         int headX = head[0];
@@ -58,6 +59,7 @@ public class RequestController {
 
         Move move = Move.DOWN;
         boolean attackOrNot = attackOrNot(request);
+        Move attackMove = getFood(me.getCoords(), getTheirSnake(request).getHead());
 
         List<Move> possibleMoves = new ArrayList<>();
         if (!isPositionSuicidal(request.getSnakes(), headX, headY - 1, boardWidth, boardHeight)) {
@@ -77,6 +79,10 @@ public class RequestController {
         if (possibleMoves.isEmpty()) {
             taunt = "Nooooooo!";
             possibleMoves.add(Move.DOWN);
+        } else {
+            if (otherSnake != null) {
+                taunt = otherSnake.getName() + "'s mother was a garden hose!";
+            }
         }
         
         Move foodMove = getFood(me.getCoords(), request.getFood(), possibleMoves);
@@ -107,6 +113,15 @@ public class RequestController {
         }
         return null;
     }
+
+    private Snake getOtherSnake(String myId, ArrayList<Snake> snakes) {
+        for (Snake snake : snakes) {
+            if (!snake.getId().equals(myId)) {
+                return snake;
+            }
+        }
+        return null;
+    }
     
     public Move getFood(int[][] ourCoords, int[][] foodCoords, List<Move> possibleMoves) {
     	List<Move> foodMoves = new ArrayList<Move>();
@@ -121,7 +136,16 @@ public class RequestController {
 	  }
     }
 
-    
+    public Snake getTheirSnake(MoveRequest request) {
+        ArrayList<Snake> snakes = request.getSnakes();
+        for (Snake snake: snakes) {
+            if (!snake.getId().equals(request.getYou())) {
+                return snake;
+            }
+        }
+        return null;
+    }
+
   public boolean attackOrNot(MoveRequest request) {
     ArrayList<Snake> snakes = request.getSnakes();
     String ourId = request.getYou();
