@@ -58,7 +58,8 @@ public class RequestController {
 
         Move move = Move.DOWN;
         Move foodMove = getFood(me.getCoords(), request.getFood());
-        
+        boolean attackOrNot = attackOrNot(request);
+
         List<Move> possibleMoves = new ArrayList<>();
         if (!isPositionSuicidal(request.getSnakes(), headX, headY - 1, boardWidth, boardHeight)) {
             possibleMoves.add(Move.UP);
@@ -113,6 +114,25 @@ public class RequestController {
 	  if(ourCoords[0][1] < foodCoords[0][1]) return Move.DOWN;
   	  return null;
     }
+
+    
+  public boolean attackOrNot(MoveRequest request) {
+    ArrayList<Snake> snakes = request.getSnakes();
+    String ourId = request.getYou();
+    int theirSize = 0;
+    int ourSize = 0;
+    for (Snake snake: snakes){
+      if (!snake.getId().equals(ourId)){
+          theirSize = snake.getSize();
+      }else{
+        ourSize = snake.getSize();
+      }
+    }
+    if (ourSize>theirSize){
+      return true;
+    }
+    return false;
+  }
 
     /**
      * Determines whether the next move will kill us for sure. Does not check for possibility of other snake's head moving

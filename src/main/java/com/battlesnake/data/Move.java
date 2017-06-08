@@ -19,6 +19,7 @@ package com.battlesnake.data;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Move {
+  ATTACK,
   UP,
   DOWN,
   LEFT,
