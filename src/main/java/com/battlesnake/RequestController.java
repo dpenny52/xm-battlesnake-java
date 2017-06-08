@@ -59,7 +59,6 @@ public class RequestController {
 
         Move move = Move.DOWN;
         boolean attackOrNot = attackOrNot(request);
-        Move attackMove = getFood(me.getCoords(), getTheirSnake(request).getHead());
 
         List<Move> possibleMoves = new ArrayList<>();
         if (!isPositionSuicidal(request.getSnakes(), headX, headY - 1, boardWidth, boardHeight)) {
@@ -86,8 +85,11 @@ public class RequestController {
         }
         
         Move foodMove = getFood(me.getCoords(), request.getFood(), possibleMoves);
+        Move attackMove = getFood(me.getCoords(), otherSnake.getHead(), possibleMoves);
         
-        if(foodMove != null) {
+        if(attackMove != null && attackOrNot) {
+        	move = attackMove;
+        } else if(foodMove != null) {
         	move = foodMove;
         } else {
         	move = possibleMoves.get(ThreadLocalRandom.current().nextInt(possibleMoves.size()));
@@ -158,7 +160,7 @@ public class RequestController {
         ourSize = snake.getSize();
       }
     }
-    if (ourSize>theirSize){
+    if (ourSize>(theirSize+1)){
       return true;
     }
     return false;
