@@ -75,4 +75,11 @@ public class Snake {
     return coords.length;
   }
 
+  public int[][] getHead() {
+    int[][] head = new int[1][2];
+    head[0][0] = coords[0][0];
+    head[0][1] = coords[0][1];
+    return head;
+  }
+
 }
