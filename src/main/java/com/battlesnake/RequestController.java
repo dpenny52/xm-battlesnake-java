@@ -41,7 +41,7 @@ public class RequestController {
                 .setHeadUrl("http://vignette1.wikia.nocookie.net/nintendo/images/6/61/Bowser_Icon.png/revision/latest?cb=20120820000805&path-prefix=en")
                 .setHeadType(HeadType.FANG)
                 .setTailType(TailType.CURLED)
-                .setTaunt("Yay!");
+                .setTaunt("YOUR MOTHER IS A GARDEN HOSE");
     }
 
     @RequestMapping(value="/move", method=RequestMethod.POST, produces = "application/json")
@@ -74,7 +74,7 @@ public class RequestController {
             possibleMoves.add(Move.RIGHT);
         }
 
-        String taunt = "Boo!";
+        String taunt = "YOUR MOTHER IS A GARDEN HOSE";
         if (possibleMoves.isEmpty()) {
             taunt = "Nooooooo!";
             possibleMoves.add(Move.DOWN);
@@ -83,10 +83,10 @@ public class RequestController {
                 taunt = otherSnake.getName() + "'s mother was a garden hose!";
             }
         }
-        
+
         Move foodMove = getFood(me.getCoords(), request.getFood(), possibleMoves);
         Move attackMove = getFood(me.getCoords(), otherSnake.getHead(), possibleMoves);
-        
+
         if(attackMove != null && attackOrNot) {
         	move = attackMove;
         } else if(foodMove != null) {
@@ -124,7 +124,7 @@ public class RequestController {
         }
         return null;
     }
-    
+
     public Move getFood(int[][] ourCoords, int[][] foodCoords, List<Move> possibleMoves) {
     	List<Move> foodMoves = new ArrayList<Move>();
 	  if(ourCoords[0][0] > foodCoords[0][0] && possibleMoves.contains(Move.LEFT)) foodMoves.add(Move.LEFT);
@@ -207,9 +207,9 @@ public class RequestController {
     public boolean closerToFood(int[][] ourCoords, int[][] otherCoords, int[] foodCoords) {
 	  int ourDistance = Math.abs((ourCoords[0][0] - foodCoords[0]) + (ourCoords[0][1] - foodCoords[1]));
 	  int theirDistance = Math.abs((otherCoords[0][0] - foodCoords[0]) + (otherCoords[0][1] - foodCoords[1]));
-	  
+
 	  if(ourDistance > theirDistance) return false;
 	  return true;
     }
-  
+
 }
