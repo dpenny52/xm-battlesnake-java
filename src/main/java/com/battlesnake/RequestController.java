@@ -39,8 +39,8 @@ public class RequestController {
                 .setName("NANO SNAKE")
                 .setColor("#FF0000")
                 .setHeadUrl("http://vignette1.wikia.nocookie.net/nintendo/images/6/61/Bowser_Icon.png/revision/latest?cb=20120820000805&path-prefix=en")
-                .setHeadType(HeadType.DEAD)
-                .setTailType(TailType.PIXEL)
+                .setHeadType(HeadType.FANG)
+                .setTailType(TailType.CURLED)
                 .setTaunt("Yay!");
     }
 
