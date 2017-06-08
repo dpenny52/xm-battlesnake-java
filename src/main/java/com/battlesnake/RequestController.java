@@ -57,7 +57,6 @@ public class RequestController {
         int headY = head[1];
 
         Move move = Move.DOWN;
-        Move foodMove = getFood(me.getCoords(), request.getFood());
         boolean attackOrNot = attackOrNot(request);
 
         List<Move> possibleMoves = new ArrayList<>();
@@ -80,7 +79,9 @@ public class RequestController {
             possibleMoves.add(Move.DOWN);
         }
         
-        if(possibleMoves.contains(foodMove)) {
+        Move foodMove = getFood(me.getCoords(), request.getFood(), possibleMoves);
+        
+        if(foodMove != null) {
         	move = foodMove;
         } else {
         	move = possibleMoves.get(ThreadLocalRandom.current().nextInt(possibleMoves.size()));
@@ -107,12 +108,12 @@ public class RequestController {
         return null;
     }
     
-    public Move getFood(int[][] ourCoords, int[][] foodCoords) {
+    public Move getFood(int[][] ourCoords, int[][] foodCoords, List<Move> possibleMoves) {
     	List<Move> foodMoves = new ArrayList<Move>();
-	  if(ourCoords[0][0] > foodCoords[0][0]) foodMoves.add(Move.LEFT);
-	  if(ourCoords[0][0] < foodCoords[0][0]) foodMoves.add(Move.RIGHT);
-	  if(ourCoords[0][1] > foodCoords[0][1]) foodMoves.add(Move.UP);
-	  if(ourCoords[0][1] < foodCoords[0][1]) foodMoves.add(Move.DOWN);
+	  if(ourCoords[0][0] > foodCoords[0][0] && possibleMoves.contains(Move.LEFT)) foodMoves.add(Move.LEFT);
+	  if(ourCoords[0][0] < foodCoords[0][0] && possibleMoves.contains(Move.RIGHT)) foodMoves.add(Move.RIGHT);
+	  if(ourCoords[0][1] > foodCoords[0][1] && possibleMoves.contains(Move.UP)) foodMoves.add(Move.UP);
+	  if(ourCoords[0][1] < foodCoords[0][1] && possibleMoves.contains(Move.DOWN)) foodMoves.add(Move.DOWN);
 	  if(foodMoves.isEmpty()) {
 		  return null;
 	  } else {
